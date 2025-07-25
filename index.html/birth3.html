@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Special Birthday Memory Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e1dadb, #e07f8c);
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px;
+      color: #fff;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .video-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      padding: 20px;
+      height: 400px;
+    }
+
+    video {
+      width: 800px;
+      height: 400px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .photo-gallery img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .photo-gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .memories {
+      background-color: #fff8f0;
+      padding: 30px;
+      border-radius: 20px;
+      margin: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .memories h2 {
+      color: #c94b4b;
+      margin-bottom: 20px;
+    }
+
+    .memories p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .love-calculator {
+      text-align: center;
+      margin: 60px 20px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    }
+
+    .love-calculator input {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 200px;
+    }
+
+    .love-calculator button {
+      padding: 10px 20px;
+      background: #e91e63;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .open-btn {
+  position: absolute;
+
+  background-color: #e91e63;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 5;
+}
+
+.open-btn:hover {
+  background-color: #c2185b;
+  transform: scale(1.05);
+}
+
+    .love-calculator button:hover {
+      background: #c2185b;
+    }
+
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #c2185b;
+    }
+  </style>
+</head>
+<body>
+  <header style="color: #000;">💖 Happy Birthday My Special One 💖</header>
+
+  <section class="video-section">
+    <video controls>
+      <source src="full.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <section class="photo-gallery">
+    <img src="imw.jpg" alt="Memory 1" />
+    <img src="im4.jpg" alt="Memory 2" />
+    <img src="im3.jpg" alt="Memory 3" />
+    <img src="im10.jpg" alt="Memory 4" />
+  </section>
+
+  <section class="photo-gallery">
+    <img src="im11.jpg" alt="Memory 1" />
+    <img src="imw1.jpg" alt="Memory 2" />
+    <img src="im7.jpg" alt="Memory 3" />
+    <img src="im5.jpg" alt="Memory 4" />
+  </section>
+
+  <section class="memories">
+    <h2>📖 Our Memories</h2>
+    <p>
+      Remember the first time we met? The laughter, the endless conversations, and all the crazy things we did. Every memory is a treasure, and this page is just a glimpse of the beautiful journey we’ve had so far.
+    </p>
+  </section>
+  <div style="height: 30px; width: 100%; display: flex; justify-content: center;">
+    <a href="birth4.html" style="text-align: center;" class="open-btn";>Happy birthday 💌</a>
+  </div>
+
+  <section class="love-calculator" style="height: 250px;">
+    <h2>❤️ Love % Calculator Game</h2>
+    <input type="text" id="name1" placeholder="Your Name" />
+    <input type="text" id="name2" placeholder="Crush Name" />
+    <br />
+    <button onclick="calculateLove()">Check Love %</button>
+    <div class="result" id="result"></div>
+  </section>
+
+  <script>
+    function calculateLove() {
+      const name1 = document.getElementById("name1").value.trim();
+      const name2 = document.getElementById("name2").value.trim();
+
+      if (!name1 || !name2) {
+        document.getElementById("result").innerText = "Please enter both names!";
+        return;
+      }
+
+      const percentage = Math.floor(Math.random() * 51) + 50; // 50-100%
+      document.getElementById("result").innerText = `${name1} ❤️ ${name2} = ${percentage}% Love!`;
+    }
+  </script>
+</body>
+</html>

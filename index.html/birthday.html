@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Envelope Page with Fireworks & Typing</title>
+  <style>
+    /* ─── Base & Container ───────────────────────────────────────────────────── */
+    * { box-sizing: border-box; margin:0; padding:0 }
+ body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #ffeff8, #ffe5f1);
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.container {
+  width:100vw;
+  max-width: 1000px;
+  aspect-ratio: 16/9;
+  background: linear-gradient(to top left, #fffaf5, #fff1df);
+  border: 3px solid #0f0e0e;
+  box-shadow: 0 10px 40px rgba(255, 192, 203, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  border-radius: 35px;
+  overflow: hidden;
+  z-index: 10;  
+}
+  .birthday-text {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #b34778;
+      font-family: 'Brush Script MT', cursive;
+      margin-bottom: 10px;
+    }
+
+.open-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background-color: #e91e63;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 5;
+}
+
+.open-btn:hover {
+  background-color: #c2185b;
+  transform: scale(1.05);
+}
+
+/* 📱 Mobile responsiveness */
+@media (max-width: 600px) {
+  .open-btn {
+    bottom: 20px;
+    right: 20px;
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+}
+
+
+    /* ─── Fireworks Canvas ──────────────────────────────────────────────────── */
+    #fireworks {
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      z-index:2;
+    }
+
+    /* ─── Twinkling Stars Wrapping ───────────────────────────────────────────── */
+    .twinkle-wrapper {
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none; z-index:1;
+    }
+    .twinkling-star {
+      position:absolute; background:gold;
+      border-radius:50%;
+      animation:twinkle 2s infinite ease-in-out;
+      box-shadow:0 0 8px 2px rgba(255,215,0,0.8);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:.2; transform:scale(.8) }
+      50%   { opacity:1;   transform:scale(1.2) }
+    }
+
+    /* ─── Typing Message Box ─────────────────────────────────────────────────── */
+    .message-box {
+      background:#fdd6e5; padding:15px 20px;
+      border-radius:10px; box-shadow:2px 4px 8px rgba(0,0,0,.2);
+      width:220px; margin-bottom:20px;
+      position:relative; overflow:hidden;
+    }
+    .message-box::before {
+      content:'🎀'; font-size:24px;
+      position:absolute; left:-25px; top:-20px;
+    }
+    .message-box h3 {
+      font-size:16px; color:#000;
+      white-space:nowrap; overflow:hidden;
+      border-right:2px solid #000;
+      width:0; /* start collapsed */
+      animation:typing 4s steps(30,end) 1s forwards,
+                 blink-caret .5s step-end infinite;
+    }
+    .message-box p {
+      font-size:12px; color:#444; margin-top:5px;
+    }
+    @keyframes typing {
+      to { width:100%; }
+    }
+    @keyframes blink-caret {
+      50% { border-color: transparent; }
+    }
+
+    /* ─── Other Elements (ribbons, cards, balloons) ─────────────────────────── */
+    .ribbon { position:absolute; height:30px; background:red;
+               top:50%; transform:translateY(-50%); z-index:1 }
+    .ribbon.left  { left:0;  width:calc(50% - 500px) }
+    .ribbon.right { right:0; width:calc(50% - 500px) }
+    .left-column {
+      display:flex; flex-direction:column; align-items:center;
+      position:absolute; top:40px; left:40px; z-index:5;
+    }
+    .image-card {
+      width:280px; height:370px; background:#fff;
+      margin-left:50px; border:2px solid #000;
+      border-radius:8px; text-align:center;
+      padding:10px; box-shadow:0 2px 4px rgba(0,0,0,.2);
+    }
+    .img-box { width:100%; height:80%; object-fit:cover; border-radius:6px; }
+    .image-card h3 { font-size:14px; margin-top:8px; }
+    .image-card h4 { margin-top:10px; font-size:18px; font-weight:bold; }
+
+    .balloon {
+      position:absolute; right:100px; top:70px;
+      width:450px; height:400px;
+      border:4px solid rgb(242,120,141);
+      border-radius:20px; z-index:5;
+    }
+    .open-btn {
+      position:absolute; bottom:40px; right:50px;
+      background:#e91e63; color:#fff;
+      padding:10px 20px; border:none; border-radius:8px;
+      font-size:16px; cursor:pointer; z-index:5;
+      box-shadow:0 4px 10px rgba(0,0,0,.2);
+    }
+    .open-btn:hover { background:#c2185b; }
+    .falling-balloon {
+      position:absolute; top:-100px; pointer-events:none;
+      z-index:4; animation:drop linear infinite; opacity:.9;
+    }
+    @keyframes drop {
+      to { transform:translateY(100vh) rotate(360deg); opacity:.2; }
+    }
+
+    .stars::after {
+      content:'✨✨✨✨✨';
+      font-size:36px; position:absolute;
+      bottom:-25px; right:-30px;
+      color:gold; transform:rotate(15deg);
+      opacity:.85; animation:sparkle 1.5s infinite ease-in-out;
+      pointer-events:none;
+    }
+    @keyframes sparkle {
+      0%,100% { opacity:.5; transform:rotate(15deg) scale(1) }
+      50%    { opacity:1;   transform:rotate(15deg) scale(1.1) }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ribbons -->
+  <div class="ribbon left"></div>
+  <div class="ribbon right"></div>
+
+  <!-- Main Container -->
+  <div class="container" id="balloon-container">
+    <!-- fireworks canvas -->
+    <canvas id="fireworks"></canvas>
+    <!-- internal stars -->
+    <div class="twinkle-wrapper" id="twinkle-wrapper"></div>
+
+    <div class="left-column" style="margin-top: -15px;">
+      <div class="message-box">
+      <h1 class="birthday-text" >❤️Happy Birthday❤️</h1>
+       
+      </div>
+      <div class="image-card" >
+        <img src="im1.jpg" alt="my wife" class="img-box" />
+        <h2 class="birthday-text">❤️Hey happy birthday babe</h2>
+        <!-- <h4>my wife</h4> -->
+      </div>
+    </div>
+
+    <img class="balloon" src="https://m.media-amazon.com/images/I/81uJIX0VeRL._UF1000,1000_QL80_.jpg" alt="balloons" />
+    <a href="birth2.html" class="open-btn">Open Envelope 💌</a>
+
+    <div class="stars"></div>
+  </div>
+
+  <script>
+  // ─── Falling Balloons & Twinkles ───────────────────────────────────────────
+    const container = document.getElementById("balloon-container");
+    const twinkleWrapper = document.getElementById("twinkle-wrapper");
+
+    function createBalloon() {
+      const b = document.createElement("img");
+      b.src = "https://www.clipartmax.com/png/full/261-2613764_balloons-png-file-birthday-balloon-transparent-background.png";
+      b.className = "falling-balloon";
+      b.style.left = Math.random()*100+"%";
+      b.style.animationDuration = (4+Math.random()*4)+"s";
+      b.style.width = (30+Math.random()*30)+"px";
+      container.appendChild(b);
+      setTimeout(()=>b.remove(),8000);
+    }
+    function createTwinklingStar() {
+      const s = document.createElement("div");
+      s.className = "twinkling-star";
+      const size = 5+Math.random()*5;
+      s.style.width = s.style.height = size+"px";
+      s.style.left = Math.random()*100+"%";
+      s.style.top  = Math.random()*100+"%";
+      twinkleWrapper.appendChild(s);
+      setTimeout(()=>s.remove(),5000);
+    }
+    setInterval(createBalloon,1000);
+    setInterval(createTwinklingStar,300);
+
+  // ─── Typing Effect (already handled via CSS keyframes) ────────────────────
+
+
+  // ─── Simple Canvas Fireworks ───────────────────────────────────────────────
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    let W, H;
+    function resize() {
+      W = canvas.width  = container.clientWidth;
+      H = canvas.height = container.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    class Firework {
+      constructor(){
+        this.x = Math.random()*W;
+        this.y = H;
+        this.vx = (Math.random()-0.5)*2;
+        this.vy = - (4+Math.random()*4);
+        this.age = 0;
+        this.particles = [];
+      }
+      update(){
+        this.age++;
+        this.x += this.vx; this.y += this.vy;
+        if(this.vy < 0) this.vy += 0.1;
+        // explode
+        if(this.vy >= 0){
+          for(let i=0;i<50;i++){
+            this.particles.push({
+              x:this.x, y:this.y,
+              vx:(Math.random()-0.5)*4,
+              vy:(Math.random()-0.5)*4,
+              life:30 + Math.random()*30
+            });
+          }
+          this.vy = 999; // mark for removal
+        }
+        this.particles = this.particles.filter(p=>{
+          p.life--; p.x+=p.vx; p.y+=p.vy;
+          return p.life>0;
+        });
+      }
+      draw(){
+        ctx.fillStyle = "rgba(255,200,0,0.8)";
+        this.particles.forEach(p=>{
+          ctx.fillRect(p.x,p.y,2,2);
+        });
+      }
+    }
+
+    let fireworks = [];
+    function animate(){
+      ctx.clearRect(0,0,W,H);
+      if(Math.random()<0.04) fireworks.push(new Firework());
+      fireworks.forEach(fw=>fw.update());
+      fireworks = fireworks.filter(fw=>fw.particles.length>0);
+      fireworks.forEach(fw=>fw.draw());
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>

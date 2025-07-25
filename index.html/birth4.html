@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shayari Game & Love Book</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fef3f8, #fde2ff);
+    }
+
+    /* Game Container */
+    #gameContainer {
+      position: relative;
+      width: 80vw;
+      height: 90vh;
+      margin: auto;
+      margin-top: 5vh;
+      border: 4px dashed #e91e63;
+      border-radius: 20px;
+      overflow: hidden;
+      background-color: #fff0f6;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    #basket {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 60px;
+      background: url('https://cdn-icons-png.flaticon.com/512/124/124015.png') no-repeat center/contain;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .score {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      color: #c2185b;
+      font-weight: bold;
+      background: #fff6fa;
+      padding: 8px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 3;
+    }
+
+    .music-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 16px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      z-index: 3;
+      cursor: pointer;
+    }
+
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      color: #e91e63;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      display: none;
+      z-index: 4;
+    }
+
+    /* Shayari Book */
+    .shayari-section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .book-wrapper {
+      position: relative;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 400px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.6s ease;
+      z-index: 2;
+      position: relative;
+    }
+
+    .book-cover img.photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .book-pages {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.8s ease;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 420px;
+    }
+
+    .book-wrapper.open .book-cover {
+      transform: translateX(-110%);
+    }
+
+    .book-wrapper.open .book-pages {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .shayari-box {
+      width: 300px;
+      height: 300px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      border: 2px solid salmon;
+      justify-content: center;
+      padding: 20px;
+      font-family: 'Brush Script MT', cursive;
+      font-size: 18px;
+      color: #880e4f;
+      text-align: center;
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-buttons button {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #c2185b;
+    }
+
+    .love-note {
+      margin-top: 40px;
+      padding: 30px;
+      background: #fff8fb;
+      border-radius: 16px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 20px;
+      line-height: 1.6;
+      color: #6a1b9a;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .open-btn {
+  position: absolute;
+  background-color: #e91e63;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 5;
+}
+
+.open-btn:hover {
+  background-color: #c2185b;
+  transform: scale(1.05);
+}
+  </style>
+</head>
+<body>
+  <!-- ❤️ Game -->
+  <div id="gameContainer">
+    <canvas id="gameCanvas"></canvas>
+    <div id="basket"></div>
+    <div class="score" id="score">Score: 0</div>
+    <button class="music-btn" id="toggleMusic">🔊 Music</button>
+    <div class="game-over" id="gameOver">Game Over 💔</div>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="rab.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- 📖 Shayari Book -->
+  <div class="shayari-section">
+    <h2 style="color:#c2185b;">Shayari Book 📖</h2>
+    <div class="book-wrapper" id="bookWrapper">
+      <div class="book-cover" onclick="openBook()" id="bookCover">
+        <img src="im4.jpg" class="photo" alt="Book Cover" />
+      </div>
+      <div class="book-pages" id="bookPages" style="margin-top:-400px ;">
+        <div class="shayari-box" id="shayariText"></div>
+        <div class="nav-buttons">
+          <button onclick="prevShayari()">⏮️</button>
+          <button onclick="nextShayari()">⏭️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💌 Love Note -->
+  <div class="love-note"  style="margin-bottom: 30px;">
+    Mere pyaar,<br><br>
+    Tum meri zindagi ka wo hissa ho jo kabhi khatam nahi hota.<br>
+    Tumhari muskaan meri rooh ko sukoon deti hai.<br>
+    Har pal tumhare saath ek nayi khushi lekar aata hai.<br>
+    Tum ho toh sab kuch hai, tum nahi toh kuch bhi nahi.<br><br>
+    Janamdin ki lakh lakh shubhkamnayein meri jaan ❤️<br>
+    Tumhara har din pyar aur khushiyon se bhara ho!
+  </div>
+
+  <div style="height: 50px; width: 100%;display: flex; justify-content: center; margin-bottom: 40px;"> 
+    <a href="birth2.html" class="open-btn">GO Home 💌</a>
+</div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+
+    let score = 0;
+    const scoreEl = document.getElementById('score');
+    const basket = document.getElementById('basket');
+    const gameOverEl = document.getElementById('gameOver');
+    let gameOver = false;
+
+    let hearts = [];
+    let mouseX = canvas.width / 2;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX - canvas.parentElement.offsetLeft;
+      basket.style.left = `${mouseX}px`;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      mouseX = e.touches[0].clientX - canvas.parentElement.offsetLeft;
+      basket.style.left = `${mouseX}px`;
+    });
+
+    class Heart {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = -50;
+        this.size = 40 + Math.random() * 20;
+        this.speed = 1 + Math.random() * 2;
+        this.text = '❤️';
+      }
+      draw() {
+        ctx.font = `${this.size}px serif`;
+        ctx.fillText(this.text, this.x, this.y);
+      }
+      update() {
+        this.y += this.speed;
+      }
+    }
+
+    function spawnHeart() {
+      if (!gameOver) hearts.push(new Heart());
+    }
+    setInterval(spawnHeart, 700);
+
+    function animate() {
+      if (gameOver) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = hearts.length - 1; i >= 0; i--) {
+        const heart = hearts[i];
+        heart.update();
+        heart.draw();
+        const basketX = basket.offsetLeft + 50;
+        const basketY = canvas.height - 60;
+
+        if (
+          heart.y + heart.size > basketY &&
+          heart.x > basketX - 50 &&
+          heart.x < basketX + 50
+        ) {
+          hearts.splice(i, 1);
+          score++;
+          scoreEl.innerText = `Score: ${score}`;
+          scoreEl.style.transform = 'scale(1.4)';
+          setTimeout(() => scoreEl.style.transform = 'scale(1)', 200);
+        } else if (heart.y > canvas.height) {
+          gameOver = true;
+          gameOverEl.style.display = 'block';
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    const music = document.getElementById('bgMusic');
+    const toggleBtn = document.getElementById('toggleMusic');
+    toggleBtn.onclick = () => {
+      if (music.paused) {
+        music.play();
+        toggleBtn.innerText = '🔇 Mute';
+      } else {
+        music.pause();
+        toggleBtn.innerText = '🔊 Music';
+      }
+    };
+
+    const shayaris = [
+      "Tere khayalon mein hi guzarta hai har din 💖",
+      "Dil se nikalti hai bas teri hi baat 💌",
+      "Tujh mein basa hai mera jahaan 💘",
+      "Zindagi mein tu hai toh sab kuch hai ✨"
+    ];
+    let currentIndex = 0;
+
+    function openBook() {
+      document.getElementById('bookWrapper').classList.add('open');
+      document.getElementById('bookPages').style.display = 'flex';
+      document.getElementById('shayariText').innerText = shayaris[currentIndex];
+    }
+
+    function nextShayari() {
+      if (currentIndex < shayaris.length - 1) {
+        currentIndex++;
+        document.getElementById('shayariText').innerText = shayaris[currentIndex];
+      }
+    }
+
+    function prevShayari() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        document.getElementById('shayariText').innerText = shayaris[currentIndex];
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Card</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #fff8fb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      position: relative;
+      width: 370px;
+      height: 640px;
+      background: #fffafc;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+.open-btn {
+  position: absolute;
+  bottom: 104px;
+  left: 10px;
+  background-color: #da7c9c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  border-color: #ffcc66;
+  border: 2px solid black;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  /* z-index: -1; */
+}
+
+.open-btn:hover {
+  background-color: #c2185b;
+  transform: scale(1.05);
+}
+
+    .photos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .photo {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border: 5px solid #ffd6e0;
+      box-shadow: 0 0 10px #ff9ecf;
+      border-radius: 10px;
+      background-color: #fff0f4;
+    }
+
+    .rotate-left {
+      transform: rotate(-6deg);
+    }
+
+    .rotate-right {
+      transform: rotate(6deg);
+    }
+
+    .music-player {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .music-player audio {
+      width: 240px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ffc2d1;
+      background-color: #fff0f4;
+    }
+
+    .birthday-text {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #b34778;
+      font-family: 'Brush Script MT', cursive;
+      margin-bottom: 10px;
+       /* box-shadow: 0 4px 10px rgba(0,0,0,0.2); */
+    }
+
+    .stars::before {
+      content: '✨✨✨✨✨✨✨✨';
+      font-size: 32px;
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      color: #ffcc66;
+      transform: rotate(-15deg);
+    }
+
+    .stars::after {
+      content: '✨✨✨✨✨✨✨✨';
+      font-size: 32px;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: #ffcc66;
+      transform: rotate(15deg);
+    }
+    .photos :hover{
+        rotate: 20deg;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="stars"></div>
+
+    <!-- Photo Section -->
+    <div class="photos">
+      <img src="im3.jpg" class="photo rotate-left" />
+      <img src="im4.jpg" class="photo rotate-right" />
+      <img src="im10.jpg" class="photo rotate-left" />
+      <img src="im11.jpg" class="photo rotate-right" />
+    </div>
+
+    <!-- 🎵 Music Player -->
+    <div class="music-player">
+      <audio controls>
+        <source src="01-Monk-Turner-Fascinoma-Its-Your-Birthday(chosic.com) (1).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+     <a href="birth3.html" class="open-btn">Hey Go On Next 💌</a>
+
+    <!-- Birthday Text -->
+    <h1 class="birthday-text" style="margin-bottom: 30px; margin-left: 90px;">Happy Birthday</h1>
+  </div>
+</body>
+</html>
